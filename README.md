@@ -131,177 +131,137 @@ Markdown (chunked by blank-line-delimited blocks).
 
 The diagram below illustrates the end-to-end data flow across document ingestion, indexing, retrieval, generation, and observability.
 
-flowchart TB
+## Technical Data Flow
 
-    %% =========================
-    %% USERS / EXTERNAL SYSTEMS
-    %% =========================
+```mermaid
+flowchart TD
 
-    USER["👤 User"]
+    USER["User"]
+    DOCS["Local Documents"]
 
-    DOCS["📄 Local Documents<br/>PDF / DOCX / TXT / Markdown"]
-
-    GEMINI["☁️ Google Gemini API<br/>LLM + Embeddings"]
-
-    %% =========================
-    %% FRONTEND
-    %% =========================
-
-    subgraph UI["🖥️ RAG Laboratory Web UI"]
-        UPLOAD["📤 Document Upload"]
-        CONFIG["⚙️ Configuration<br/>API Key / Model"]
-        INDEX_BTN["▶ Index Documents"]
-        QUERY["💬 Ask Question"]
-        TRACE["🔬 RAG Execution Trace"]
-        CHUNKS_UI["🧩 Chunk Explorer"]
-        DASH["📊 RAG / Chunk Dashboard"]
-        ANSWER["📝 Grounded Answer<br/>+ Citations"]
+    subgraph UI["RAG Laboratory UI"]
+        UPLOAD["Upload Documents"]
+        CONFIG["Configuration"]
+        INDEX["Index Documents"]
+        QUESTION["Ask Question"]
+        TRACE["RAG Execution Trace"]
+        ANSWER["Grounded Answer and Citations"]
     end
 
-    %% =========================
-    %% INGESTION PIPELINE
-    %% =========================
-
-    subgraph INGEST["📥 Document Ingestion & Indexing"]
-        PARSER["📖 Document Parser"]
-        ANALYZER["🔍 Document Analyzer"]
-        CHUNKER["✂️ Chunking Engine"]
-        METADATA["🏷️ Metadata Extraction"]
-        EMBED_INDEX["🧠 Embedding Generation"]
-        INDEXER["📌 Vector Indexer"]
+    subgraph INGEST["Document Ingestion"]
+        PARSER["Document Parser"]
+        ANALYZER["Document Analyzer"]
+        CHUNKER["Chunking Engine"]
+        METADATA["Metadata Extraction"]
+        EMBEDDING["Embedding Generation"]
+        INDEXER["Vector Indexer"]
     end
 
-    %% =========================
-    %% STORAGE
-    %% =========================
-
-    subgraph STORAGE["🗄️ Persistent Storage"]
-        UPLOAD_STORE[("📁 Uploaded Documents")]
-        VECTOR_DB[("🔢 Vector Store<br/>Embeddings + Metadata")]
+    subgraph STORAGE["Storage"]
+        FILES["Uploaded Documents"]
+        VECTORDB["Vector Store"]
     end
 
-    %% =========================
-    %% QUERY PIPELINE
-    %% =========================
-
-    subgraph RAG["🔎 RAG Query & Retrieval Pipeline"]
-        Q_ANALYSIS["🧠 Question Analysis"]
-        Q_REWRITE["🔄 Query Transformation<br/>(Optional)"]
-        Q_EMBED["🔢 Query Embedding"]
-        SEARCH["🔍 Vector Similarity Search"]
-        FILTER["🚦 Similarity Threshold / Filtering"]
-        RERANK["📈 Re-ranking<br/>(Optional)"]
-        CONTEXT["🧱 Context Builder"]
-        PROMPT["📝 Prompt Construction"]
+    subgraph RETRIEVAL["RAG Retrieval"]
+        ANALYSIS["Question Analysis"]
+        TRANSFORM["Query Transformation"]
+        QUERY_EMBED["Query Embedding"]
+        SEARCH["Vector Similarity Search"]
+        FILTER["Similarity Filtering"]
+        RERANK["Re-ranking"]
+        CONTEXT["Context Builder"]
+        PROMPT["Prompt Construction"]
     end
 
-    %% =========================
-    %% GENERATION / VALIDATION
-    %% =========================
-
-    subgraph GENERATION["🤖 Answer Generation & Grounding"]
-        LLM["Gemini Flash<br/>Grounded Generation"]
-        VALIDATE["✅ Grounding / Evidence Validation"]
-        CITATIONS["🔗 Citation & Source Tracking"]
+    subgraph GENERATION["Generation and Validation"]
+        GEMINI["Gemini LLM"]
+        VALIDATE["Grounding Validation"]
+        CITATION["Citation Tracking"]
     end
-
-    %% =========================
-    %% INGESTION FLOW
-    %% =========================
 
     USER --> UPLOAD
     DOCS --> UPLOAD
 
-    UPLOAD --> UPLOAD_STORE
-    UPLOAD --> PARSER
-
+    UPLOAD --> FILES
+    FILES --> PARSER
     PARSER --> ANALYZER
     ANALYZER --> CHUNKER
     CHUNKER --> METADATA
-    METADATA --> EMBED_INDEX
+    METADATA --> EMBEDDING
+    EMBEDDING --> INDEXER
+    INDEXER --> VECTORDB
 
-    EMBED_INDEX <--> GEMINI
+    CONFIG --> EMBEDDING
+    CONFIG --> GEMINI
 
-    EMBED_INDEX --> INDEXER
-    INDEXER --> VECTOR_DB
+    USER --> QUESTION
+    QUESTION --> ANALYSIS
+    ANALYSIS --> TRANSFORM
+    TRANSFORM --> QUERY_EMBED
+    QUERY_EMBED --> SEARCH
+    VECTORDB --> SEARCH
 
-    INDEX_BTN --> INDEXER
-
-    %% =========================
-    %% UI OBSERVABILITY
-    %% =========================
-
-    CHUNKER --> CHUNKS_UI
-    ANALYZER --> DASH
-    METADATA --> CHUNKS_UI
-    VECTOR_DB --> DASH
-
-    %% =========================
-    %% QUERY FLOW
-    %% =========================
-
-    USER --> QUERY
-    QUERY --> Q_ANALYSIS
-    Q_ANALYSIS --> Q_REWRITE
-    Q_REWRITE --> Q_EMBED
-
-    Q_EMBED <--> GEMINI
-
-    Q_EMBED --> SEARCH
-    SEARCH --> VECTOR_DB
-
-    VECTOR_DB --> SEARCH
     SEARCH --> FILTER
     FILTER --> RERANK
     RERANK --> CONTEXT
-
-    %% =========================
-    %% DECISION / CONTEXT
-    %% =========================
-
-    FILTER -. "Insufficient Evidence" .-> ANSWER
-
     CONTEXT --> PROMPT
-    PROMPT --> LLM
+    PROMPT --> GEMINI
 
-    LLM <--> GEMINI
+    GEMINI --> VALIDATE
+    VALIDATE --> CITATION
+    CITATION --> ANSWER
 
-    LLM --> VALIDATE
-    VALIDATE --> CITATIONS
-    CITATIONS --> ANSWER
-
-    %% =========================
-    %% TRACE
-    %% =========================
-
-    Q_ANALYSIS -.-> TRACE
-    Q_REWRITE -.-> TRACE
-    Q_EMBED -.-> TRACE
+    ANALYSIS -.-> TRACE
+    QUERY_EMBED -.-> TRACE
     SEARCH -.-> TRACE
     FILTER -.-> TRACE
     RERANK -.-> TRACE
     CONTEXT -.-> TRACE
     PROMPT -.-> TRACE
-    LLM -.-> TRACE
+    GEMINI -.-> TRACE
     VALIDATE -.-> TRACE
-    CITATIONS -.-> TRACE
+    CITATION -.-> TRACE
 
-    %% =========================
-    %% STYLES
-    %% =========================
+    CHUNKER -.-> TRACE
+    EMBEDDING -.-> TRACE
+    INDEXER -.-> TRACE
 
-    classDef user fill:#E8F0FE,stroke:#4285F4,color:#111827,stroke-width:2px
-    classDef ui fill:#F3E8FF,stroke:#9333EA,color:#111827,stroke-width:2px
-    classDef ingestion fill:#DCFCE7,stroke:#16A34A,color:#111827,stroke-width:2px
-    classDef storage fill:#FEF3C7,stroke:#D97706,color:#111827,stroke-width:2px
-    classDef rag fill:#DBEAFE,stroke:#2563EB,color:#111827,stroke-width:2px
-    classDef generation fill:#FCE7F3,stroke:#DB2777,color:#111827,stroke-width:2px
-    classDef external fill:#E0F2FE,stroke:#0284C7,color:#111827,stroke-width:2px
+    style USER fill:#E8F0FE,stroke:#0969DA,stroke-width:2px
+    style DOCS fill:#E8F0FE,stroke:#0969DA,stroke-width:2px
 
-    class USER,DOCS user
-    class UPLOAD,CONFIG,INDEX_BTN,QUERY,TRACE,CHUNKS_UI,DASH,ANSWER ui
-    class PARSER,ANALYZER,CHUNKER,METADATA,EMBED_INDEX,INDEXER ingestion
-    class UPLOAD_STORE,VECTOR_DB storage
-    class Q_ANALYSIS,Q_REWRITE,Q_EMBED,SEARCH,FILTER,RERANK,CONTEXT,PROMPT rag
-    class LLM,VALIDATE,CITATIONS generation
-    class GEMINI external
+    style UI fill:#F6F8FA,stroke:#8250DF,stroke-width:2px
+    style INGEST fill:#F6F8FA,stroke:#1A7F37,stroke-width:2px
+    style STORAGE fill:#F6F8FA,stroke:#D97706,stroke-width:2px
+    style RETRIEVAL fill:#F6F8FA,stroke:#0969DA,stroke-width:2px
+    style GENERATION fill:#F6F8FA,stroke:#CF222E,stroke-width:2px
+
+    style UPLOAD fill:#EDE9FE,stroke:#8250DF
+    style CONFIG fill:#EDE9FE,stroke:#8250DF
+    style INDEX fill:#EDE9FE,stroke:#8250DF
+    style QUESTION fill:#EDE9FE,stroke:#8250DF
+    style TRACE fill:#EDE9FE,stroke:#8250DF
+    style ANSWER fill:#EDE9FE,stroke:#8250DF
+
+    style PARSER fill:#DCFCE7,stroke:#1A7F37
+    style ANALYZER fill:#DCFCE7,stroke:#1A7F37
+    style CHUNKER fill:#DCFCE7,stroke:#1A7F37
+    style METADATA fill:#DCFCE7,stroke:#1A7F37
+    style EMBEDDING fill:#DCFCE7,stroke:#1A7F37
+    style INDEXER fill:#DCFCE7,stroke:#1A7F37
+
+    style FILES fill:#FEF3C7,stroke:#D97706
+    style VECTORDB fill:#FEF3C7,stroke:#D97706
+
+    style ANALYSIS fill:#DBEAFE,stroke:#0969DA
+    style TRANSFORM fill:#DBEAFE,stroke:#0969DA
+    style QUERY_EMBED fill:#DBEAFE,stroke:#0969DA
+    style SEARCH fill:#DBEAFE,stroke:#0969DA
+    style FILTER fill:#DBEAFE,stroke:#0969DA
+    style RERANK fill:#DBEAFE,stroke:#0969DA
+    style CONTEXT fill:#DBEAFE,stroke:#0969DA
+    style PROMPT fill:#DBEAFE,stroke:#0969DA
+
+    style GEMINI fill:#FCE7F3,stroke:#CF222E
+    style VALIDATE fill:#FCE7F3,stroke:#CF222E
+    style CITATION fill:#FCE7F3,stroke:#CF222E
+```
