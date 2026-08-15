@@ -131,6 +131,10 @@ Markdown (chunked by blank-line-delimited blocks).
 
 The diagram below illustrates the end-to-end data flow across document ingestion, indexing, retrieval, generation, and observability.
 
+
+![RAG Laboratory Technical Data Flow](data/docs/images/rag-laboratory-technical-data-flow.png)
+
+
 ## Technical Data Flow
 
 ```mermaid
