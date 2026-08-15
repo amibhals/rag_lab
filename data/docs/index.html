@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="RAG Laboratory — a transparent, observable Retrieval-Augmented Generation learning and experimentation environment." />
+  <title>RAG Laboratory | Transparent RAG, Explained</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="#overview" aria-label="RAG Laboratory home">
+        <span class="brand-mark">R</span>
+        <span>
+          <strong>RAG Laboratory</strong>
+          <small>Observe. Understand. Experiment.</small>
+        </span>
+      </a>
+      <nav class="nav">
+        <a href="#overview">Overview</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#capabilities">Capabilities</a>
+        <a href="#preview">App Preview</a>
+      </nav>
+      <a class="nav-cta" href="https://github.com/amibhals/rag_lab" target="_blank" rel="noopener">View on GitHub ↗</a>
+    </div>
+  </header>
+
+  <main>
+    <section id="overview" class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow"><span></span> AI Engineering · RAG Observability</div>
+          <h1>Don't just use RAG.<br /><em>See how it works.</em></h1>
+          <p class="hero-lead">
+            RAG Laboratory is a transparent, interactive environment for understanding the complete
+            Retrieval-Augmented Generation pipeline — from document ingestion and chunking to retrieval,
+            grounding, generation and citations.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#preview">Explore the App Preview</a>
+            <a class="button secondary" href="https://github.com/amibhals/rag_lab" target="_blank" rel="noopener">Download from GitHub</a>
+          </div>
+          <div class="hero-meta">
+            <span>Python</span><i></i><span>Gemini</span><i></i><span>Vector Search</span><i></i><span>Observability</span>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="card-topline">
+            <span>RAG PIPELINE</span><span class="live-dot">● LIVE CONCEPT</span>
+          </div>
+          <div class="pipeline">
+            <div class="pipe-node active"><b>01</b><span>Documents</span></div>
+            <div class="pipe-line"></div>
+            <div class="pipe-node"><b>02</b><span>Chunks</span></div>
+            <div class="pipe-line"></div>
+            <div class="pipe-node"><b>03</b><span>Embeddings</span></div>
+            <div class="pipe-line"></div>
+            <div class="pipe-node"><b>04</b><span>Retrieval</span></div>
+            <div class="pipe-line"></div>
+            <div class="pipe-node final"><b>05</b><span>Answer</span></div>
+          </div>
+          <div class="hero-card-footer">
+            <span>Transparency layer enabled</span>
+            <span>↗ Execution trace</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="notice">
+      <div class="container notice-inner">
+        <span class="notice-icon">i</span>
+        <div>
+          <strong>Application preview</strong>
+          <p>This microsite includes a static representation of the RAG Laboratory UI. It shows how the application is designed to look and behave. <a href="https://github.com/amibhals/rag_lab" target="_blank" rel="noopener">Download the actual application from GitHub →</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="architecture">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">01 / ARCHITECTURE</span>
+            <h2>A RAG pipeline you can actually inspect.</h2>
+          </div>
+          <p>The design prioritizes observability, explainability and simplicity over unnecessary enterprise complexity.</p>
+        </div>
+
+        <div class="architecture-image">
+          <img src="assets/technical-data-flow.png" alt="RAG Laboratory technical data flow architecture" />
+        </div>
+
+        <div class="flow-strip">
+          <div><span>01</span> Document ingestion</div>
+          <div><span>02</span> Chunk & metadata</div>
+          <div><span>03</span> Embed & index</div>
+          <div><span>04</span> Retrieve & filter</div>
+          <div><span>05</span> Generate & validate</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark-section" id="capabilities">
+      <div class="container">
+        <div class="section-heading light">
+          <div>
+            <span class="section-kicker">02 / CAPABILITIES</span>
+            <h2>Built as a RAG laboratory,<br />not a black-box chatbot.</h2>
+          </div>
+          <p>Every meaningful stage of the pipeline is designed to be visible, traceable and understandable.</p>
+        </div>
+
+        <div class="cap-grid">
+          <article class="cap-card">
+            <span class="cap-number">01</span>
+            <h3>Document Intelligence</h3>
+            <p>Upload documents, inspect structure and understand what the system is processing before retrieval begins.</p>
+          </article>
+          <article class="cap-card">
+            <span class="cap-number">02</span>
+            <h3>Chunk Explorer</h3>
+            <p>See chunk IDs, sizes, overlap, source pages and metadata, with a visual relationship back to the source document.</p>
+          </article>
+          <article class="cap-card">
+            <span class="cap-number">03</span>
+            <h3>Retrieval Transparency</h3>
+            <p>Inspect retrieved candidates, similarity scores, filtering decisions and the chunks selected for final context.</p>
+          </article>
+          <article class="cap-card">
+            <span class="cap-number">04</span>
+            <h3>Execution Trace</h3>
+            <p>Follow the query from question analysis through embedding, vector search, context construction and generation.</p>
+          </article>
+          <article class="cap-card">
+            <span class="cap-number">05</span>
+            <h3>Grounded Answers</h3>
+            <p>Answers are designed around source evidence, with citation and grounding validation rather than unsupported generation.</p>
+          </article>
+          <article class="cap-card">
+            <span class="cap-number">06</span>
+            <h3>Modular by Design</h3>
+            <p>Keep the LLM, embedding model, vector store and retrieval strategy replaceable as the project evolves.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="preview">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">03 / APPLICATION PREVIEW</span>
+            <h2>Inside the RAG Laboratory.</h2>
+          </div>
+          <p>Static UI concept — the real application is available in the repository.</p>
+        </div>
+
+        <div class="app-shell">
+          <div class="app-topbar">
+            <div class="app-brand"><span class="brand-mark mini">R</span><strong>RAG Laboratory</strong></div>
+            <div class="app-status"><span></span> System ready</div>
+          </div>
+
+          <div class="app-body">
+            <aside class="app-sidebar">
+              <div class="side-label">WORKSPACE</div>
+              <button class="side-item selected"><span>⌂</span> Overview</button>
+              <button class="side-item"><span>▣</span> Documents</button>
+              <button class="side-item"><span>◈</span> Chunk Explorer</button>
+              <button class="side-item"><span>⌁</span> Retrieval</button>
+              <button class="side-item"><span>◎</span> Execution Trace</button>
+              <div class="side-label lower">CONFIGURATION</div>
+              <button class="side-item"><span>⚙</span> Gemini</button>
+            </aside>
+
+            <div class="app-main">
+              <div class="app-title-row">
+                <div>
+                  <div class="app-kicker">RAG OBSERVABILITY</div>
+                  <h3>Pipeline Overview</h3>
+                </div>
+                <button class="ghost-btn">Index Documents</button>
+              </div>
+
+              <div class="stat-grid">
+                <div class="stat-card"><small>DOCUMENTS</small><strong>2</strong><span>Uploaded</span></div>
+                <div class="stat-card"><small>TOTAL CHUNKS</small><strong>79</strong><span>Across documents</span></div>
+                <div class="stat-card"><small>INDEXED VECTORS</small><strong>79</strong><span>Vector store</span></div>
+                <div class="stat-card"><small>EMBEDDING DIMENSIONS</small><strong>3,072</strong><span>Configured model</span></div>
+              </div>
+
+              <div class="app-grid">
+                <div class="panel">
+                  <div class="panel-head"><strong>Ask the RAG</strong><span>Grounded mode</span></div>
+                  <div class="question-box">What is the process for X?</div>
+                  <button class="ask-btn">Ask Question ↗</button>
+                </div>
+                <div class="panel">
+                  <div class="panel-head"><strong>Retrieved Chunks</strong><span>Top 4</span></div>
+                  <div class="retrieval-row"><b>#1</b><span>C42 · Document A · p.12</span><strong>0.91</strong></div>
+                  <div class="retrieval-row"><b>#2</b><span>C18 · Document B · p.7</span><strong>0.87</strong></div>
+                  <div class="retrieval-row"><b>#3</b><span>C43 · Document A · p.13</span><strong>0.84</strong></div>
+                </div>
+              </div>
+
+              <div class="panel trace-panel">
+                <div class="panel-head"><strong>RAG Execution Trace</strong><span>Behind the scenes</span></div>
+                <div class="trace-flow">
+                  <span>User Question</span><i>→</i><span>Embedding</span><i>→</i><span>Vector Search</span><i>→</i><span>Filtering</span><i>→</i><span>Context</span><i>→</i><span>Gemini</span><i>→</i><span>Validation</span>
+                </div>
+              </div>
+
+              <div class="panel answer-panel">
+                <div class="panel-head"><strong>Grounded Answer</strong><span class="success">✓ Evidence found</span></div>
+                <p>The process consists of the documented stages described in the retrieved source material, with the relevant evidence assembled into the final context before generation.</p>
+                <div class="sources"><span>[C1] Document A · Page 12</span><span>[C3] Document A · Page 13</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="download-banner">
+          <div>
+            <span class="section-kicker">READY TO EXPERIMENT?</span>
+            <h3>Run the real RAG Laboratory locally.</h3>
+            <p>The microsite is only the showcase. The repository contains the application code and setup instructions.</p>
+          </div>
+          <a class="button primary" href="https://github.com/amibhals/rag_lab" target="_blank" rel="noopener">Open GitHub Repository ↗</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div class="brand">
+        <span class="brand-mark">R</span>
+        <span><strong>RAG Laboratory</strong><small>Transparent AI engineering</small></span>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/amibhals/rag_lab" target="_blank" rel="noopener">GitHub</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#preview">App Preview</a>
+      </div>
+      <span class="copyright">Built for learning, experimentation & observability.</span>
+    </div>
+  </footer>
+</body>
+</html>
