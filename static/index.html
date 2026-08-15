@@ -1,0 +1,10 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RAG Laboratory</title><link rel="stylesheet" href="/static/style.css"></head><body>
+<header><div><h1>RAG Laboratory</h1><p>See the machinery. Don't just trust the answer.</p></div><div class="badge">Transparent RAG MVP</div></header>
+<main>
+<section class="card config"><h2>1. Configuration</h2><div class="row"><input id="apiKey" type="password" placeholder="Gemini API key"><button onclick="saveKey()">Save for this session</button><span id="keyStatus"></span></div><small>Key is kept in browser memory/session backend only and is never displayed in traces.</small></section>
+<section class="card"><h2>2. Upload → Analyze → Chunk → Embed → Index</h2><div class="row"><input id="files" type="file" multiple accept=".pdf,.docx,.txt,.md"><button onclick="uploadFiles()">Upload & Analyze</button><button class="primary" onclick="indexDocs()">Index Documents</button></div><div id="uploadStatus"></div></section>
+<section class="grid"><div class="card"><h2>Document & Chunk Map</h2><div id="docMap"></div></div><div class="card"><h2>Chunk Statistics</h2><div id="stats" class="stats"></div></div></section>
+<section class="card"><h2>Architecture</h2><div class="flow"><span>Documents</span><b>→</b><span>Parser</span><b>→</b><span>Chunking</span><b>→</b><span>Metadata</span><b>→</b><span>Gemini Embeddings</span><b>→</b><span>Chroma</span><b>→</b><span>Retriever</span><b>→</b><span>Filter</span><b>→</b><span>Context</span><b>→</b><span>Gemini 3.6 Flash</span><b>→</b><span>Answer + Citations</span></div></section>
+<section class="card"><h2>3. Ask the RAG</h2><div class="ask"><textarea id="question" placeholder="Ask a question that should be answered from the indexed documents..."></textarea><button class="primary" onclick="ask()">Run RAG</button></div><div id="answer"></div></section>
+<section id="traceSection" class="card hidden"><h2>4. RAG Execution Trace</h2><div id="trace"></div></section>
+</main><script src="/static/app.js"></script></body></html>
